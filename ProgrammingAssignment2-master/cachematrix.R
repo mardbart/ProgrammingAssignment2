@@ -38,7 +38,7 @@ cacheSolve <- function(x, ...) {
         inv
       }
       else{
-        message("the matrix is nonivertible, its determinant is != 0")  
+        message("the matrix is nonivertible, its determinant is = 0")  
       }
     }
     else{
