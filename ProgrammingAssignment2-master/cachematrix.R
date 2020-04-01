@@ -19,9 +19,6 @@ makeCacheMatrix <- function(x = matrix()) {
 ## this function computes the inverse of the special "matrix" returned by makeCacheMatrix. 
 ## If the inverse has already been calculated (and the matrix has not changed), 
 ## then the function retrieves the inverse from the cache.
-## The function adopts a waterfall logic to calculate the inverse 
-## only if the matrix is made up of numbers, is square and its determinant is != 0
-## if the matrix is noninvertible, inv is not computed
 
 cacheSolve <- function(x, ...) {
   inv <- x$getinv()
@@ -30,22 +27,7 @@ cacheSolve <- function(x, ...) {
     return(inv)
   }
   data <- x$get()
-  if (class(data[1,1]) == "numeric" | class(data[1,1]) == "integer"){ ##begin of the waterfall logic. Every element is coerced to be of the same class, so [1, 1] is representative!
-    if (dim(data)[1] == dim(data)[2]){
-      if(det(data) != 0){
-        inv <- solve(data, ...)
-        x$setinv(inv)
-        inv
-      }
-      else{
-        message("the matrix is nonivertible, its determinant is = 0")  
-      }
-    }
-    else{
-      message("the matrix is nonivertible, it is not a square matrix!")  
-    }
-  }
-  else{
-    message("the matrix is nonivertible, values are not numbers!") 
-  }          
+  inv <- solve(data, ...)
+  x$setinv(inv)
+  inv
 }
